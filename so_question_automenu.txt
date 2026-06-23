@@ -1,0 +1,17 @@
+How to get GtkApplication to automatically load by menubar?
+
+(Not sure if this is the appropriate place to ask this type of question.)
+
+I have created a small GTK app (code at https://github.com/user14410902/gtk_myapplication) and I want to automatically load the menubar from my/application/gtk/menus.ui as described here https://docs.gtk.org/gtk4/class.Application.html .
+
+I have been following the xfce mousepad code (https://gitlab.xfce.org/apps/mousepad/-/blob/master/mousepad/mousepad-application.c) to load the menubar but I am stuck.
+
+My app consists of
+1. main.c creates an instance of MyApplication and runs it. Seems to work. I set GSETTINGS_SCHEMA_DIR to "." because I want to run the app uninstalled.
+2. my-application.h/c Basically an empty application. 
+I am not sure if I need to do anything here to load the menubar, e.g. menu = gtk_application_get_menu_by_id(GTK_APPLICATION(application), "menubar"); 
+I create an instance of MyWindow. But I am not sure if I need that?
+3. my-window.h/c Again an empty window. Not sure if I need this at all for this simple app?
+4. my/application/gtk/menus.ui has the XML for the menubar.
+
+Any help would be greatly appreciated :) 
