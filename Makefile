@@ -7,7 +7,10 @@ default: $(BINARY)
 
 $(BINARY): $(OBJECTS)
 
+resources.c:
+	glib-compile-resources my.gresource.xml --target resources.c --generate-source
+
 clean:
-	rm -f $(OBJECTS) $(BINARY)
+	rm -f $(OBJECTS) $(BINARY) resources.c
 
 
