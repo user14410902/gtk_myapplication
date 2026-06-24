@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
   bind_textdomain_codeset(DOMAINNAME, "UTF-8");
   textdomain(DOMAINNAME);
 
-  g_setenv("GSETTINGS_SCHEMA_DIR", ".", FALSE);
+  //g_setenv("GSETTINGS_SCHEMA_DIR", ".", FALSE);
 
   MyApplication *application = g_object_new(
       MY_TYPE_APPLICATION, "application-id", MY_APPLICATION_ID, NULL);
