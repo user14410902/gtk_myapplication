@@ -1,18 +1,23 @@
 #include "my-window.h"
+#include "my-preference-dialog.h"
 
 static void my_window_finalize(GObject *object);
 
 static void my_window_show_dialog(GSimpleAction *action, GVariant *value,
+                                  gpointer data);
+static void my_window_show_preferences(GSimpleAction *action, GVariant *value,
                                   gpointer data);
 
 struct _MyWindow {
   GtkApplicationWindow __parent__;
 
   GtkWidget *menubar;
+  GtkWidget* preference_dialog;
 };
 
 static const GActionEntry action_entries[] = {
-    {"file.show-dialog", my_window_show_dialog, NULL, NULL, NULL}};
+    {"file.show-dialog", my_window_show_dialog, NULL, NULL, NULL},
+    {"file.show-preferences", my_window_show_preferences, NULL, NULL, NULL}};
 
 G_DEFINE_TYPE(MyWindow, my_window, GTK_TYPE_APPLICATION_WINDOW)
 
@@ -36,6 +41,7 @@ static void my_window_finalize(GObject *object) {
 }
 
 static void my_window_init(MyWindow *window) {
+  window->preference_dialog = NULL;
   g_action_map_add_action_entries(G_ACTION_MAP(window), action_entries,
                                   G_N_ELEMENTS(action_entries), window);
 }
@@ -56,4 +62,18 @@ static void my_window_show_dialog(GSimpleAction *action, GVariant *value,
 //                         "website", "https://docs.xfce.org/apps/mousepad/start",
                          NULL);
 }
+
+static void my_window_show_preferences(GSimpleAction *action, GVariant *value,
+    gpointer data) {
+  g_print("show preferences\n");
+
+  MyWindow *window = data;
+  if (window->preference_dialog == NULL) {
+    window->preference_dialog = my_preference_dialog_new();
+  }
+  gtk_window_set_transient_for(GTK_WINDOW(window->preference_dialog),GTK_WINDOW(window));
+
+  gtk_window_present(GTK_WINDOW(window->preference_dialog));
+}
+
 
