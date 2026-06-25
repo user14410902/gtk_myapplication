@@ -33,9 +33,19 @@ static void my_preference_dialog_finalize(GObject *object) {
 }
 
 static void my_preference_dialog_init(MyPreferenceDialog *self) {
-
+  self->builder = gtk_builder_new();
+  GError *error = NULL;
+  if (!gtk_builder_add_from_resource(
+          self->builder, "/my/application/ui/my-preference-dialog.ui", &error)) {
+    g_error("failed to load preference dialog: %s", error->message);
+    g_error_free(error);
+  }
+  gtk_window_set_title(GTK_WINDOW(self),
+                       "My Preferences"); // TODO use translation
+  gtk_window_set_icon_name(GTK_WINDOW(self),
+                           "preferences-desktop"); // TODO fix icon
 }
 
 GtkWidget *my_preference_dialog_new(void) {
-  return g_object_new(MY_TYPE_PREFERENCE_DIALOG,NULL);
+  return g_object_new(MY_TYPE_PREFERENCE_DIALOG, NULL);
 }
