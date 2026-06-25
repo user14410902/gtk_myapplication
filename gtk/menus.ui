@@ -18,6 +18,10 @@
       <attribute name="tooltip" translatable="yes">File menu</attribute>
       <section>
         <item>
+        <attribute name="label" translatable="yes">Show a dialog</attribute>
+        <attribute name="action">win.file.show-dialog</attribute>
+        </item>
+        <item>
           <attribute name="label" translatable="yes">_Quit</attribute>
           <attribute name="tooltip" translatable="yes">Quit Mousepad</attribute>
           <attribute name="action">app.quit</attribute>
