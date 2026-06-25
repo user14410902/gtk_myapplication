@@ -43,4 +43,17 @@ static void my_window_init(MyWindow *window) {
 static void my_window_show_dialog(GSimpleAction *action, GVariant *value,
                                   gpointer data) {
   g_print("my_window_show_dialog\n");
+  gtk_show_about_dialog (GTK_WINDOW (data),
+                         "authors", (const char*[]){"Me","Myself","I",NULL},
+                         //"comments", "Mousepad is a simple text editor for the Xfce desktop environment",
+//                         "copyright", "Copyright \xc2\xa9 2005- the Mousepad developers",
+//                         "destroy-with-parent", TRUE,
+//                         "license-type", "GTK_LICENSE_GPL_2_0",
+//                         "logo-icon-name", "MOUSEPAD_ID",
+//                         "program-name", "PACKAGE_NAME",
+//                         "version", "VERSION_FULL",
+//                         "translator-credits", "translator-credits",
+//                         "website", "https://docs.xfce.org/apps/mousepad/start",
+                         NULL);
 }
+
