@@ -1,9 +1,11 @@
 #include "my-preference-dialog.h"
+#include <threads.h>
 
 struct _MyPreferenceDialog {
   GtkDialog parent;
 
   GtkBuilder *builder;
+  MyWindow *parent_window;
 };
 
 static void my_preference_dialog_constructed(GObject *object);
@@ -18,7 +20,6 @@ static void my_preference_dialog_class_init(MyPreferenceDialogClass *klass) {
 }
 
 static void my_preference_dialog_constructed(GObject *object) {
-  GtkWindow *dialog = GTK_WINDOW(object);
   G_OBJECT_CLASS(my_preference_dialog_parent_class)->constructed(object);
 }
 
@@ -36,16 +37,37 @@ static void my_preference_dialog_init(MyPreferenceDialog *self) {
   self->builder = gtk_builder_new();
   GError *error = NULL;
   if (!gtk_builder_add_from_resource(
-          self->builder, "/my/application/ui/my-preference-dialog.ui", &error)) {
+          self->builder, "/my/application/ui/my-preference-dialog-sample.ui",
+          &error)) {
     g_error("failed to load preference dialog: %s", error->message);
-    g_error_free(error);
+    g_printerr("failed to load preference dialog: %s\n", error->message); //TODO are both g_error and g_printerr required?
+    g_clear_error(&error);
+    g_error_free(error); //TODO are both g_clear_error and g_error_free required?
+    g_object_unref(self->builder);
+    self->builder = NULL;
+    return;
   }
   gtk_window_set_title(GTK_WINDOW(self),
                        "My Preferences"); // TODO use translation
   gtk_window_set_icon_name(GTK_WINDOW(self),
                            "preferences-desktop"); // TODO fix icon
+
+  //GtkDialog *dialog = GTK_DIALOG(gtk_builder_get_object(self->builder, "my_dialog"));
+  //gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(self->parent_window));
+  //gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+  //gtk_widget_set_visible(GTK_WIDGET(dialog), TRUE);
+
+  GtkFrame *frame = GTK_FRAME(gtk_builder_get_object(self->builder,"my_frame"));
+  GtkDialog *dialog = GTK_DIALOG(self);
+  GtkWidget *content_area = gtk_dialog_get_content_area(dialog);
+  gtk_box_append(GTK_BOX(content_area),GTK_WIDGET(frame));
+
+  g_object_unref(self->builder);
+  self->builder = NULL;
 }
 
-GtkWidget *my_preference_dialog_new(void) {
-  return g_object_new(MY_TYPE_PREFERENCE_DIALOG, NULL);
+GtkWidget *my_preference_dialog_new(MyWindow* parent_window) {
+  GtkWidget *obj = g_object_new(MY_TYPE_PREFERENCE_DIALOG, NULL);
+  MY_PREFERENCE_DIALOG(obj)->parent_window = parent_window;
+  return obj;
 }

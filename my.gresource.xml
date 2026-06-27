@@ -2,7 +2,8 @@
 <gresources>
   <gresource prefix="/my/application">
     <file preprocess="xml-stripblanks">gtk/menus.ui</file>
-    <file preprocess="xml-stripblanks">ui/my-preference-dialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/my-preference-dialog-sample.ui</file>
+
   </gresource>
   
 </gresources>

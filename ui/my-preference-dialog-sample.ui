@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkFrame" id="my_frame">
+    <child>
+          <object class="GtkLabel" id="label">
+            <property name="label">Hello, GTK!</property>
+          </object>
+        </child>
+      </object>
+</interface>
