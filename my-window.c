@@ -71,6 +71,7 @@ static void my_window_show_preferences(GSimpleAction *action, GVariant *value,
   if (window->preference_dialog == NULL) {
     window->preference_dialog = my_preference_dialog_new(window);
   }
+
   gtk_window_set_transient_for(GTK_WINDOW(window->preference_dialog),GTK_WINDOW(window));
 
   gtk_window_present(GTK_WINDOW(window->preference_dialog));
